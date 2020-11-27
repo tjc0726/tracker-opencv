@@ -78,7 +78,7 @@ while True:
                 pre_rot_center_x=rot_center_x
                 pre_rot_center_y=rot_center_y
                 rot_r=math.hypot(x1_value-rot_center_x,y1_value-rot_center_y)
-                move_v=math.hypot(x1_value-point1_list[-CAL_MOVE_V_STEP][0],y1_value-point1_list[-CAL_MOVE_V_STEP][1])/(1*TIME_PRE_FRAME)
+                move_v=math.hypot(x1_value-point1_list[-CAL_MOVE_V_STEP][0],y1_value-point1_list[-CAL_MOVE_V_STEP][1])/(CAL_MOVE_V_STEP*TIME_PRE_FRAME)
                 ROT_V=move_v/rot_r
                 text_size,baseline=cv2.getTextSize("Angular velocity="+str(format(ROT_V,'0.4f'))+"rad/s",cv2.FONT_HERSHEY_COMPLEX,0.5,1)
                 cv2.putText(frame,"Angular velocity="+str(format(ROT_V,'0.4f'))+"rad/s",(vid_width-text_size[0],text_size[1]),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,255,255))
