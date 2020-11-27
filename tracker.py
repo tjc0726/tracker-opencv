@@ -8,8 +8,9 @@ import os
 import json
 import cv2
 import numpy as np
+from retrying import retry
 from openpyxl import Workbook
-print("物体追踪-判断角速度 by tjc")
+print("物体追踪-判断角速度 by tjc\n框选两点完成后摁esc开始追踪")
 try:
     with open("./setting.json", "r") as load_f:
         SETTING = json.load(load_f)
@@ -144,8 +145,12 @@ while True:
                 elif choose=="4":
                     FLAG=False
         cv2.imshow("A",frame)
-        if cv2.waitKey(1) & 0xff == ord('q'):
-            break
+        key=cv2.waitKey(1)
+        if (key & 0xff == ord('q')) or (key & 0xff == ord('Q')):
+            cv2.destroyAllWindows()
+            print("用户终止，程序退出")
+            os.system('pause')
+            sys.exit()
     else:
         break
 point1_x_list=np.array(point1_list)[:,0]
@@ -159,6 +164,15 @@ ws1.title = "v"
 ws1.append(("时间","点1 x坐标","点1 y坐标","点2 x坐标","点2 y坐标","角速度"))
 for i in data.T:
     ws1.append(i.tolist())
-wb.save(filename = EXCEL_FILE_PATH)
-print("完毕")
+def if_retry(unused_excepton):
+    """检测是否该重试"""
+    yes_no=input("保存excel失败，可能文件已被打开或权限不足，输入Y重试，输入其他退出\n")
+    return yes_no in ('y','Y')
+@retry(retry_on_exception=if_retry)
+def save_excel():
+    """保存excel"""
+    wb.save(filename = EXCEL_FILE_PATH)
+    print("正在保存")
+save_excel()
+print("程序结束")
 os.system('pause')
