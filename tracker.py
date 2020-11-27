@@ -173,8 +173,8 @@ def if_retry(unused_excepton):
 @retry(retry_on_exception=if_retry)
 def save_excel():
     """保存excel"""
+    print("正在写入")
     wb.save(filename = EXCEL_FILE_PATH)
-    print("正在保存")
 save_excel()
 print("程序结束")
 os.system('pause')
