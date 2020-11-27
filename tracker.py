@@ -14,6 +14,7 @@ try:
         SETTING = json.load(load_f)
 except IOError:
     print("未找到设置文件，程序退出")
+    os.system('pause')
     sys.exit()
 REAL_FPS=SETTING['real_fps']
 VIDEO_PATH=SETTING['video_path']
@@ -29,6 +30,7 @@ tracker2=cv2.TrackerCSRT_create()
 success,frame=vid.read()
 if not success:
     print("视频读取失败,退出程序")
+    os.system('pause')
     sys.exit()
 cv2.imshow("A",frame)
 roi=cv2.selectROIs("A",frame)
@@ -158,3 +160,4 @@ for i in data.T:
     ws1.append(i.tolist())
 wb.save(filename = EXCEL_FILE_PATH)
 print("完毕")
+os.system('pause')
