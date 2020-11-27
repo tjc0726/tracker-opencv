@@ -8,9 +8,13 @@ import json
 import cv2
 import numpy as np
 from openpyxl import Workbook
-
-with open("./setting.json", "r") as load_f:
-    SETTING = json.load(load_f)
+print("物体追踪-判断角速度 by tjc")
+try:
+    with open("./setting.json", "r") as load_f:
+        SETTING = json.load(load_f)
+except IOError:
+    print("未找到设置文件，程序退出")
+    sys.exit()
 REAL_FPS=SETTING['real_fps']
 VIDEO_PATH=SETTING['video_path']
 EXCEL_FILE_PATH=SETTING['excel_file_path']
@@ -153,3 +157,4 @@ ws1.append(("时间","点1 x坐标","点1 y坐标","点2 x坐标","点2 y坐标"
 for i in data.T:
     ws1.append(i.tolist())
 wb.save(filename = EXCEL_FILE_PATH)
+print("完毕")
