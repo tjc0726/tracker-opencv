@@ -1,0 +1,7 @@
+{
+    "real_fps":240,
+    "video_path":"12_Trim.mp4",
+    "excel_file_path":"data.xlsx",
+    "cal_cen_step":100,
+    "cal_move_v_step":1
+}

@@ -1,29 +1,31 @@
 """
 物体追踪
-需要安装包：opencv-contrib-python,openpyxl
-按需修改变量：
-    视频路径:(VIDEO_PATH)
-    计算旋转中心步长，(CAL_CEN_STEP=100)
-    计算平动速度步长（CAL_MOVE_V_STEP）
-    摄像所用FPS(REAL_FPS)
-    导出EXCEL路径(EXCEL_FILE_PATH)
+需要安装包：opencv-contrib-python,openpyxl,json
 """
 import math
+import sys
+import json
 import cv2
 import numpy as np
 from openpyxl import Workbook
-REAL_FPS=240
-VIDEO_PATH="12_Trim.mp4"
-EXCEL_FILE_PATH="data.xlsx"
+
+with open("./setting.json", "r") as load_f:
+    SETTING = json.load(load_f)
+REAL_FPS=SETTING['real_fps']
+VIDEO_PATH=SETTING['video_path']
+EXCEL_FILE_PATH=SETTING['excel_file_path']
 vid=cv2.VideoCapture(VIDEO_PATH)
 TIME_PRE_FRAME=1/REAL_FPS
-CAL_CEN_STEP=100
-CAL_MOVE_V_STEP=1
+CAL_CEN_STEP=SETTING['cal_cen_step']
+CAL_MOVE_V_STEP=SETTING['cal_move_v_step']
 vid_height=int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT))
 vid_width=int(vid.get(cv2.CAP_PROP_FRAME_WIDTH))
 tracker1=cv2.TrackerCSRT_create()
 tracker2=cv2.TrackerCSRT_create()
 success,frame=vid.read()
+if not success:
+    print("视频读取失败,退出程序")
+    sys.exit()
 cv2.imshow("A",frame)
 roi=cv2.selectROIs("A",frame)
 tracker1.init(frame,tuple(roi[0]))
