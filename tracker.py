@@ -153,6 +153,8 @@ while True:
             sys.exit()
     else:
         break
+cv2.destroyAllWindows()
+print("开始保存")
 point1_x_list=np.array(point1_list)[:,0]
 point1_y_list=np.array(point1_list)[:,1]
 point2_x_list=np.array(point2_list)[:,0]
